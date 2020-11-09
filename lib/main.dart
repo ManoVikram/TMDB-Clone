@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/homeScreen.dart';
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,7 +10,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xff032541),
-        accentColor: Colors.blue,
+        accentColor: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: TMDB(),
@@ -24,6 +26,10 @@ class TMDB extends StatefulWidget {
 class _TMDBState extends State<TMDB> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: HomeScreen(),
+    );
   }
 }
+
+void main() => runApp(MyApp());
