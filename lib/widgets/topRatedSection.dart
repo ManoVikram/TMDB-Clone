@@ -4,24 +4,30 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import './movieCard.dart';
-import '../models/popularMoviesAPI.dart';
+import '../models/topRatedMoviesAPI.dart';
 
-class PopularSection extends StatelessWidget {
+class TopRatedSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Faker faker = Faker();
-    final popularMovies = Provider.of<PopularMovies>(context);
-    Provider.of<PopularMovies>(context, listen: false).fetchPopularMovies();
+    final topRatedMovies = Provider.of<TopRatedMovies>(context);
+    Provider.of<TopRatedMovies>(context, listen: false).fetchTopRatedMovies();
     // print(DateFormat.yMMM().format(DateTime.now()));
     return Container(
       padding: EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("lib/assets/images/wave.png"),
+          fit: BoxFit.fitWidth,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
-              "What's Popular",
+              "Top Rated",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w500,
@@ -41,7 +47,7 @@ class PopularSection extends StatelessWidget {
                   MovieCard(
                     imageURL:
                         // Movie image from TMDB API
-                        popularMovies.movies[index].moviePoster,
+                        topRatedMovies.movies[index].moviePoster,
                     // "https://images.pexels.com/photos/3381013/pexels-photo-3381013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                     height: 200,
                     aspectRatio: 4 / 6,
@@ -58,7 +64,7 @@ class PopularSection extends StatelessWidget {
                         children: [
                           Text(
                             // faker.person.firstName(),
-                            popularMovies.movies[index].movieTitle,
+                            topRatedMovies.movies[index].movieTitle,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -68,7 +74,7 @@ class PopularSection extends StatelessWidget {
                             // Movie release date from TMDB API
                             DateFormat.yMMM()
                                 .format(DateTime.parse(
-                                    popularMovies.movies[index].releaseDate))
+                                    topRatedMovies.movies[index].releaseDate))
                                 .toString(),
                             // "${faker.date.month().toString()} ${faker.date.year().toString()}",
                             overflow: TextOverflow.fade,
@@ -79,7 +85,7 @@ class PopularSection extends StatelessWidget {
                   ),
                 ],
               ),
-              itemCount: popularMovies.movies.length,
+              itemCount: topRatedMovies.movies.length,
               scrollDirection: Axis.horizontal,
             ),
           ),

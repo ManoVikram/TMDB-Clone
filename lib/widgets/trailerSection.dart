@@ -1,12 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './movieCard.dart';
+import '../models/trendingMoviesAPI.dart';
+import '../models/movieVideosAPI.dart';
 
-class TrailerSection extends StatelessWidget {
+class TrailerSection extends StatefulWidget {
+  @override
+  _TrailerSectionState createState() => _TrailerSectionState();
+}
+
+class _TrailerSectionState extends State<TrailerSection> {
+  Future<void> _urlLauncher(String url) async {
+    if (await canLaunch(url)) {
+      print("1");
+      await launch(url);
+    } else {
+      print("2");
+      url = null;
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text("ERROR: Cannot open trailer"),
+          elevation: 7,
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Faker faker = Faker();
+    final trendingMovies = Provider.of<TrendingMovies>(context);
+    Provider.of<TrendingMovies>(context, listen: false).fetchTrendingMovies();
     return Stack(
       children: [
         Container(
@@ -47,16 +75,41 @@ class TrailerSection extends StatelessWidget {
                   itemBuilder: (contxt, index) => Column(
                     children: [
                       MovieCard(
-                        imageURL:
-                            "https://image.tmdb.org/t/p/w220_and_h330_face/n6hptKS7Y0ZjkYwbqKOK3jz9XAC.jpg",
+                        imageURL: trendingMovies.movies[index].moviePoster,
+                        // "https://image.tmdb.org/t/p/w220_and_h330_face/n6hptKS7Y0ZjkYwbqKOK3jz9XAC.jpg",
                         // Replace with image from TMDB API
                         stackChild: Center(
-                          child: SizedBox(
-                            height: 40,
-                            child: Image.asset(
-                              "lib/assets/images/playButton.png",
-                              color: Colors.white70,
+                          child: InkWell(
+                            child: SizedBox(
+                              height: 40,
+                              child: Image.asset(
+                                "lib/assets/images/playButton.png",
+                                color: Colors.white70,
+                              ),
                             ),
+                            onTap: () async {
+                              await Provider.of<MovieVideos>(context,
+                                      listen: false)
+                                  .fetchVideos(
+                                      trendingMovies.movies[index].movieId);
+                              final videos = Provider.of<MovieVideos>(context,
+                                      listen: false)
+                                  .videos;
+                              if (videos.isEmpty) {
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("ERROR: Cannot open trailer"),
+                                    elevation: 7,
+                                    backgroundColor:
+                                        Theme.of(context).errorColor,
+                                  ),
+                                );
+                                return;
+                              }
+                              final videoURLkey = videos[0].videoKey;
+                              _urlLauncher(
+                                  "https://www.youtube.com/watch?v=$videoURLkey");
+                            },
                           ),
                         ),
                       ),
@@ -64,17 +117,18 @@ class TrailerSection extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        faker.lorem.words(5).toString(),
+                        // faker.lorem.words(5).toString(),
                         // Replace with movie title from TMDB API
+                        trendingMovies.movies[index].movieTitle,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
-                  itemCount: 20,
+                  itemCount: trendingMovies.movies.length,
                   scrollDirection: Axis.horizontal,
                 ),
               ),

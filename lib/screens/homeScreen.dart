@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/customAppBar.dart';
+import '../widgets/appDrawer.dart';
 import '../widgets/topBanner.dart';
 import '../widgets/popularSection.dart';
 import '../widgets/trailerSection.dart';
+import '../widgets/topRatedSection.dart';
 import '../widgets/leaderboardSection.dart';
+import '../widgets/footer.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -14,6 +17,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: CustomAppBar(),
       ),
+      drawer: AppDrawer(),
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Column(
@@ -21,7 +25,9 @@ class HomeScreen extends StatelessWidget {
             TopBanner(),
             PopularSection(),
             TrailerSection(),
+            TopRatedSection(),
             LeaderboardSection(),
+            Footer(),
           ],
         ),
       ),

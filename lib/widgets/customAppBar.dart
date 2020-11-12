@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomAppBar extends StatelessWidget {
   Row get _logo => Row(
@@ -10,12 +11,32 @@ class CustomAppBar extends StatelessWidget {
             "lib/assets/images/TMDB_logo.png",
             width: 150,
           ),
+          /* SvgPicture.asset(
+            "lib/assets/images/TMDB_logo.svg",
+          ), */
         ],
       );
 
-  Row get _search => Row(
+  Row get _searchAndUser => Row(
         children: [
           Icon(Icons.search),
+          /* SizedBox(
+            width: 7,
+          ),
+          DropdownButton(
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ),
+            items: [
+              DropdownMenuItem(
+                child: Text("Logout"),
+                value: "logout",
+              ),
+            ],
+            underline: Container(),
+            onChanged: (value) {},
+          ), */
         ],
       );
 
@@ -25,7 +46,7 @@ class CustomAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _logo,
-        _search,
+        _searchAndUser,
       ],
     );
   }

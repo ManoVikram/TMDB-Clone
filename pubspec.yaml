@@ -26,6 +26,11 @@ dependencies:
   faker: ^1.2.1
   percent_indicator: ^2.1.8
   provider: ^4.3.2+2
+  font_awesome_flutter: ^8.10.0
+  http: ^0.12.2
+  intl: ^0.16.1
+  url_launcher: ^5.7.10
+  flutter_svg: ^0.19.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -51,6 +56,9 @@ flutter:
   assets:
     - lib/assets/images/TMDB_logo.png
     - lib/assets/images/playButton.png
+    - lib/assets/images/TMDBfooterLogo.jpg
+    - lib/assets/images/wave.png
+    - lib/assets/images/TMDB_logo.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
