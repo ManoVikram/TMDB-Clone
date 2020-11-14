@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/auth.dart';
 
@@ -44,7 +46,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         ),
         onChanged: (value) {
           password = value;
-          Auth(password: password);
+          Provider.of<Auth>(context, listen: false).setUserPassword = password;
           print(password);
         },
       ),

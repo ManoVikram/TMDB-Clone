@@ -57,9 +57,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 color: Colors.pink[100],
                 textColor: Colors.white,
                 onPressed: () async {
+                  print(Provider.of<Auth>(context, listen: false).userEmail);
+                  print(Provider.of<Auth>(context, listen: false).userPassword);
+                  print("Hello User!!");
                   userCredential = await _auth.createUserWithEmailAndPassword(
-                    email: Provider.of<Auth>(context).userEmail,
-                    password: Provider.of<Auth>(context).userPassword,
+                    email: Provider.of<Auth>(context, listen: false).userEmail,
+                    password:
+                        Provider.of<Auth>(context, listen: false).userPassword,
                   );
                 },
               ),

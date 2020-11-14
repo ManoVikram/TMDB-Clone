@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/auth.dart';
 
@@ -16,6 +17,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
@@ -38,7 +40,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
         ),
         onChanged: (value) {
           email = value;
-          Auth(email: email.trim());
+          Provider.of<Auth>(context, listen: false).setUserEmail = email;
           print(email);
         },
       ),

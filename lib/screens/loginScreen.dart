@@ -59,9 +59,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 textColor: Colors.white,
                 onPressed: () async {
                   try {
+                    print(Provider.of<Auth>(context, listen: false).userEmail);
+                    print(
+                        Provider.of<Auth>(context, listen: false).userPassword);
+                    print("Hello Login");
                     userCredential = await _auth.signInWithEmailAndPassword(
-                      email: Provider.of<Auth>(context).userEmail,
-                      password: Provider.of<Auth>(context).userPassword,
+                      email:
+                          Provider.of<Auth>(context, listen: false).userEmail,
+                      password: Provider.of<Auth>(context, listen: false)
+                          .userPassword,
                     );
                   } on PlatformException catch (error) {
                     var message =

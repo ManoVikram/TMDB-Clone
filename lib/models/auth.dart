@@ -1,12 +1,18 @@
 import 'package:flutter/widgets.dart';
 
 class Auth with ChangeNotifier {
-  final String email;
-  final String password;
+  String _email;
+  String _password;
 
-  Auth({this.email, this.password});
+  set setUserEmail(String email) {
+    _email = email;
+  }
 
-  String get userEmail => email;
+  set setUserPassword(String password) {
+    _password = password;
+  }
 
-  String get userPassword => password;
+  String get userEmail => _email;
+
+  String get userPassword => _password;
 }
