@@ -60,11 +60,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   print(Provider.of<Auth>(context, listen: false).userEmail);
                   print(Provider.of<Auth>(context, listen: false).userPassword);
                   print("Hello User!!");
-                  userCredential = await _auth.createUserWithEmailAndPassword(
-                    email: Provider.of<Auth>(context, listen: false).userEmail,
-                    password:
-                        Provider.of<Auth>(context, listen: false).userPassword,
-                  );
+                  try {
+                    userCredential = await _auth.createUserWithEmailAndPassword(
+                      email:
+                          Provider.of<Auth>(context, listen: false).userEmail,
+                      password: Provider.of<Auth>(context, listen: false)
+                          .userPassword,
+                    );
+                  } on FirebaseAuthException catch (error) {
+                    String message =
+                        "ERROR: Please check your email and password.";
+
+                    if (error.code == 'weak-password') {
+                      message = "The password provided is too weak.";
+                    } else if (error.code == 'email-already-in-use') {
+                      message = "The account already exists for that email.";
+                    }
+
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        backgroundColor: Theme.of(context).errorColor,
+                      ),
+                    );
+                  } catch (error) {
+                    print(error);
+                  }
                 },
               ),
               SizedBox(

@@ -69,12 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       password: Provider.of<Auth>(context, listen: false)
                           .userPassword,
                     );
-                  } on PlatformException catch (error) {
-                    var message =
-                        "ERROR: Please enter the correct credentials!";
+                  } on FirebaseAuthException catch (error) {
+                    String message =
+                        "ERROR: Please enter the correct email and password.";
 
-                    if (error.message != null) {
-                      message = error.message;
+                    if (error.code == 'user-not-found') {
+                      message = "No user found for that email.";
+                    } else if (error.code == 'wrong-password') {
+                      message = "Wrong password provided for that user.";
                     }
 
                     Scaffold.of(context).showSnackBar(
