@@ -31,6 +31,8 @@ dependencies:
   intl: ^0.16.1
   url_launcher: ^5.7.10
   flutter_svg: ^0.19.1
+  firebase_core: ^0.5.2
+  firebase_auth: ^0.18.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -59,6 +61,13 @@ flutter:
     - lib/assets/images/TMDBfooterLogo.jpg
     - lib/assets/images/wave.png
     - lib/assets/images/TMDB_logo.svg
+    - lib/assets/images/mainTop.png
+    - lib/assets/images/mainBottom.png
+    - lib/assets/images/conversation.svg
+    - lib/assets/images/loginBottom.png
+    - lib/assets/images/login.svg
+    - lib/assets/images/signup.svg
+    - lib/assets/images/signupTop.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

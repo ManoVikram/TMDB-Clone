@@ -1,4 +1,4 @@
-package com.example.tmdb
+package com.clone.tmdb
 
 import io.flutter.embedding.android.FlutterActivity
 

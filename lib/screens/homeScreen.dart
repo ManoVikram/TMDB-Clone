@@ -10,6 +10,8 @@ import '../widgets/leaderboardSection.dart';
 import '../widgets/footer.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = "/homeScreen";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
