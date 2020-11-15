@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import './movieCard.dart';
+import '../screens/movieDetailsScreen.dart';
 import '../models/topRatedMoviesAPI.dart';
 
 class TopRatedSection extends StatelessWidget {
@@ -40,50 +41,58 @@ class TopRatedSection extends StatelessWidget {
           Container(
             height: 250,
             child: ListView.builder(
-              itemBuilder: (contxt, index) => Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MovieCard(
-                    imageURL:
-                        // Movie image from TMDB API
-                        topRatedMovies.movies[index].moviePoster,
-                    // "https://images.pexels.com/photos/3381013/pexels-photo-3381013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    height: 200,
-                    aspectRatio: 4 / 6,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 150,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            // faker.person.firstName(),
-                            topRatedMovies.movies[index].movieTitle,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+              itemBuilder: (contxt, index) => InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    MovieDetailsScreen.routeName,
+                    arguments: topRatedMovies.movies[index],
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MovieCard(
+                      imageURL:
+                          // Movie image from TMDB API
+                          topRatedMovies.movies[index].moviePoster,
+                      // "https://images.pexels.com/photos/3381013/pexels-photo-3381013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                      height: 200,
+                      aspectRatio: 4 / 6,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 150,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              // faker.person.firstName(),
+                              topRatedMovies.movies[index].movieTitle,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            // Movie release date from TMDB API
-                            DateFormat.yMMM()
-                                .format(DateTime.parse(
-                                    topRatedMovies.movies[index].releaseDate))
-                                .toString(),
-                            // "${faker.date.month().toString()} ${faker.date.year().toString()}",
-                            overflow: TextOverflow.fade,
-                          ),
-                        ],
+                            Text(
+                              // Movie release date from TMDB API
+                              DateFormat.yMMM()
+                                  .format(DateTime.parse(
+                                      topRatedMovies.movies[index].releaseDate))
+                                  .toString(),
+                              // "${faker.date.month().toString()} ${faker.date.year().toString()}",
+                              overflow: TextOverflow.fade,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               itemCount: topRatedMovies.movies.length,
               scrollDirection: Axis.horizontal,

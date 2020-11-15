@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +20,34 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   UserCredential userCredential;
+
+  void _tryLogin(String email, String password) async {
+    try {
+      userCredential = await _auth.signInWithEmailAndPassword(
+        // email: Provider.of<Auth>(context).userEmail,
+        // password: Provider.of<Auth>(context).userPassword,
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (error) {
+      String message = "ERROR: Please enter the correct email and password.";
+
+      if (error.code == 'user-not-found') {
+        message = "No user found for that email.";
+      } else if (error.code == 'wrong-password') {
+        message = "Wrong password provided for that user.";
+      }
+
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,38 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: "Login",
                 color: Color(0xFF90CEA1),
                 textColor: Colors.white,
-                onPressed: () async {
-                  try {
-                    print(Provider.of<Auth>(context, listen: false).userEmail);
-                    print(
-                        Provider.of<Auth>(context, listen: false).userPassword);
-                    print("Hello Login");
-                    userCredential = await _auth.signInWithEmailAndPassword(
-                      email:
-                          Provider.of<Auth>(context, listen: false).userEmail,
-                      password: Provider.of<Auth>(context, listen: false)
-                          .userPassword,
-                    );
-                  } on FirebaseAuthException catch (error) {
-                    String message =
-                        "ERROR: Please enter the correct email and password.";
-
-                    if (error.code == 'user-not-found') {
-                      message = "No user found for that email.";
-                    } else if (error.code == 'wrong-password') {
-                      message = "Wrong password provided for that user.";
-                    }
-
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(message),
-                        backgroundColor: Theme.of(context).errorColor,
-                      ),
-                    );
-                  } catch (error) {
-                    print(error);
-                  }
-                },
+                onPressed: _tryLogin,
               ),
               SizedBox(
                 height: size.height * 0.03,

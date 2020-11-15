@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/auth.dart';
 
 class RoundedButton extends StatefulWidget {
   final String text;
   final Color color;
   final Color textColor;
-  final Function onPressed;
+  final void Function(String email, String password) onPressed;
 
   RoundedButton({
     this.text,
@@ -28,7 +31,12 @@ class _RoundedButtonState extends State<RoundedButton> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: RaisedButton(
-          onPressed: widget.onPressed,
+          onPressed: () {
+            return widget.onPressed(
+              Provider.of<Auth>(context, listen: false).userEmail,
+              Provider.of<Auth>(context, listen: false).userPassword,
+            );
+          },
           elevation: 7,
           padding: EdgeInsets.symmetric(
             vertical: 20,

@@ -21,6 +21,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
   UserCredential userCredential;
 
+  void _trySignup(String email, String password) async {
+    try {
+      userCredential = await _auth.createUserWithEmailAndPassword(
+        // email: Provider.of<Auth>(context).userEmail,
+        // password: Provider.of<Auth>(context).userPassword,
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (error) {
+      String message = "ERROR: Please check your email and password.";
+
+      if (error.code == 'weak-password') {
+        message = "The password provided is too weak.";
+      } else if (error.code == 'email-already-in-use') {
+        message = "The account already exists for that email.";
+      }
+
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+    } catch (error) {
+      print(error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -56,37 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: "Sign Up",
                 color: Colors.pink[100],
                 textColor: Colors.white,
-                onPressed: () async {
-                  print(Provider.of<Auth>(context, listen: false).userEmail);
-                  print(Provider.of<Auth>(context, listen: false).userPassword);
-                  print("Hello User!!");
-                  try {
-                    userCredential = await _auth.createUserWithEmailAndPassword(
-                      email:
-                          Provider.of<Auth>(context, listen: false).userEmail,
-                      password: Provider.of<Auth>(context, listen: false)
-                          .userPassword,
-                    );
-                  } on FirebaseAuthException catch (error) {
-                    String message =
-                        "ERROR: Please check your email and password.";
-
-                    if (error.code == 'weak-password') {
-                      message = "The password provided is too weak.";
-                    } else if (error.code == 'email-already-in-use') {
-                      message = "The account already exists for that email.";
-                    }
-
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(message),
-                        backgroundColor: Theme.of(context).errorColor,
-                      ),
-                    );
-                  } catch (error) {
-                    print(error);
-                  }
-                },
+                onPressed: _trySignup,
               ),
               SizedBox(
                 height: size.height * 0.03,

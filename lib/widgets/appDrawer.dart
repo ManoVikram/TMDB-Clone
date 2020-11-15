@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -6,7 +7,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       elevation: 10,
       child: Container(
-        color: Color(0xff032541),
+        color: Color(0xFF032541),
         child: Column(
           children: [
             AppBar(
@@ -74,7 +75,9 @@ class AppDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
             ),
           ],
         ),
