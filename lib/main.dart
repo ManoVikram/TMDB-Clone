@@ -82,11 +82,11 @@ class _TMDBState extends State<TMDB> {
         // stream: FirebaseAuth.instance.authStateChanges(),
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (contxt, userSnapshot) {
-          if (userSnapshot.connectionState == ConnectionState.waiting) {
+          /* if (userSnapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
+          } */
 
           if (userSnapshot.hasData) {
             return HomeScreen();

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/authenticationScreenFields/emailTextField.dart';
 import '../widgets/authenticationScreenFields/passwordTextField.dart';
 import '../widgets/authenticationScreenFields/alreadyHaveAnAccount.dart';
 import '../widgets/roundedButton.dart';
-import '../models/auth.dart';
 import './signUpScreen.dart';
 
 class LoginScreen extends StatefulWidget {

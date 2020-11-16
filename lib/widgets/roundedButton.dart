@@ -24,6 +24,10 @@ class _RoundedButtonState extends State<RoundedButton> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final String _userEmail =
+        Provider.of<Auth>(context, listen: false).userEmail;
+    final String _userPassword =
+        Provider.of<Auth>(context, listen: false).userPassword;
 
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -33,8 +37,8 @@ class _RoundedButtonState extends State<RoundedButton> {
         child: RaisedButton(
           onPressed: () {
             return widget.onPressed(
-              Provider.of<Auth>(context, listen: false).userEmail,
-              Provider.of<Auth>(context, listen: false).userPassword,
+              _userEmail,
+              _userPassword,
             );
           },
           elevation: 7,
