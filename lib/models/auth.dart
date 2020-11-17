@@ -6,10 +6,12 @@ class Auth with ChangeNotifier {
 
   set setUserEmail(String email) {
     _email = email;
+    notifyListeners();
   }
 
   set setUserPassword(String password) {
     _password = password;
+    notifyListeners();
   }
 
   String get userEmail => _email;

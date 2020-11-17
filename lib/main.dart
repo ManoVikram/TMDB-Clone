@@ -5,14 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 
 import './screens/homeScreen.dart';
 import './screens/welcomeScreen.dart';
-import './screens/loginScreen.dart';
-import './screens/signUpScreen.dart';
+// import './screens/loginScreen.dart';
+// import './screens/signUpScreen.dart';
 import './screens/movieDetailsScreen.dart';
 import './models/popularMoviesAPI.dart';
 import './models/topRatedMoviesAPI.dart';
 import './models/movieVideosAPI.dart';
 import './models/trendingMoviesAPI.dart';
 import './models/auth.dart';
+import './screens/authenticationScreens/loginScreen.dart' as authLogin;
+import './screens/authenticationScreens/signUpScreen.dart' as authSignup;
 
 class MyApp extends StatelessWidget {
   @override
@@ -56,8 +58,11 @@ class MyApp extends StatelessWidget {
         home: TMDB(),
         routes: {
           WelcomeScreen.routeName: (contxt) => WelcomeScreen(),
-          LoginScreen.routeName: (contxt) => LoginScreen(),
-          SignUpScreen.routeName: (contxt) => SignUpScreen(),
+          // LoginScreen.routeName: (contxt) => LoginScreen(),
+          // SignUpScreen.routeName: (contxt) => SignUpScreen(),
+          authLogin.LoginScreen.routeName: (contxt) => authLogin.LoginScreen(),
+          authSignup.SignUpScreen.routeName: (contxt) =>
+              authSignup.SignUpScreen(),
           HomeScreen.routeName: (contxt) => HomeScreen(),
           MovieDetailsScreen.routeName: (contxt) => MovieDetailsScreen(),
         },

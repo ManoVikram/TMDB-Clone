@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import './loginScreen.dart';
-import './signUpScreen.dart';
+// import './loginScreen.dart';
+// import './signUpScreen.dart';
+import './authenticationScreens/loginScreen.dart';
+import './authenticationScreens/signUpScreen.dart';
+import '../widgets/roundedButton.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const routeName = "/welcomeScreen";
@@ -31,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.065,
             ),
-            ButtonTheme(
+            /* ButtonTheme(
               minWidth: MediaQuery.of(context).size.width * 0.8,
               child: RaisedButton(
                 onPressed: () {
@@ -76,6 +79,24 @@ class WelcomeScreen extends StatelessWidget {
                 ), */
                 child: Text("Sign Up"),
               ),
+            ), */
+            RoundedButton(
+              text: "Log In",
+              textColor: Colors.white,
+              color: Color(0xFF90CEA1),
+              onTap: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
+              },
+            ),
+            RoundedButton(
+              text: "Sign Up",
+              textColor: Colors.black87,
+              color: Colors.pink[100],
+              onTap: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(SignUpScreen.routeName);
+              },
             ),
           ],
         ),

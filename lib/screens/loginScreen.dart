@@ -36,8 +36,15 @@ class _LoginScreenState extends State<LoginScreen> {
         message = "Wrong password provided for that user.";
       }
 
-      Scaffold.of(context).showSnackBar(
+      /* Scaffold.of(context).showSnackBar(
         SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      ); */
+
+      Builder(
+        builder: (contxt) => SnackBar(
           content: Text(message),
           backgroundColor: Theme.of(context).errorColor,
         ),

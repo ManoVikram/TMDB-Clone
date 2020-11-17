@@ -7,12 +7,14 @@ class RoundedButton extends StatefulWidget {
   final String text;
   final Color color;
   final Color textColor;
+  final Function onTap;
   final void Function(String email, String password) onPressed;
 
   RoundedButton({
     this.text,
     this.color = const Color(0xFF90CEA1),
     this.textColor = Colors.white,
+    this.onTap,
     this.onPressed,
   });
 
@@ -35,12 +37,14 @@ class _RoundedButtonState extends State<RoundedButton> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: RaisedButton(
-          onPressed: () {
-            return widget.onPressed(
-              _userEmail,
-              _userPassword,
-            );
-          },
+          onPressed: widget.onTap == null
+              ? () {
+                  widget.onPressed(
+                    _userEmail,
+                    _userPassword,
+                  );
+                }
+              : widget.onTap,
           elevation: 7,
           padding: EdgeInsets.symmetric(
             vertical: 20,
