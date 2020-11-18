@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './loginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String routeName = "/signUpScreen";
 
+  final Function toggleScreen;
+
+  SignUpScreen({this.toggleScreen});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  UserCredential _userCredential;
+
   Widget _textField(String labelText, bool isPassword) {
     return TextField(
+      controller: isPassword ? _passwordTextController : _emailTextController,
       obscureText: isPassword ? true : false,
       cursorColor: Color(0xFF1DB954),
       decoration: InputDecoration(
@@ -122,7 +133,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            print(_emailTextController.text);
+                            print(_passwordTextController.text);
+                            _userCredential =
+                                await _auth.createUserWithEmailAndPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text,
+                            );
+                          } on FirebaseAuthException catch (error) {
+                            String message =
+                                "ERROR: Enter a valid EMAIL and PASSWORD.";
+
+                            if (error.code == 'weak-password') {
+                              message = "The password provided is too weak.";
+                            } else if (error.code == 'email-already-in-use') {
+                              message =
+                                  "The account already exists for that email.";
+                            }
+
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(message),
+                              ),
+                            );
+                          } catch (error) {
+                            print(error);
+                          }
+                        },
                         elevation: 7,
                         padding: EdgeInsets.symmetric(
                           vertical: 20,
@@ -141,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(5),
+                    margin: EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -156,8 +195,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(LoginScreen.routeName);
+                            /* Navigator.of(context)
+                                .pushReplacementNamed(LoginScreen.routeName); */
+                            widget.toggleScreen();
                           },
                           child: Text(
                             "Log In",

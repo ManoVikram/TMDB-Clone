@@ -78,6 +78,14 @@ class TMDB extends StatefulWidget {
 }
 
 class _TMDBState extends State<TMDB> {
+  bool showLoginScreen = true;
+
+  void toggleScreen() {
+    setState(() {
+      showLoginScreen = !showLoginScreen;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,17 +95,21 @@ class _TMDBState extends State<TMDB> {
         // stream: FirebaseAuth.instance.authStateChanges(),
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (contxt, userSnapshot) {
-          /* if (userSnapshot.connectionState == ConnectionState.waiting) {
+          if (userSnapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } */
-
-          if (userSnapshot.hasData) {
-            return HomeScreen();
+          } else if (userSnapshot.connectionState == ConnectionState.active) {
+            if (userSnapshot.hasData) {
+              return HomeScreen();
+            }
           }
 
-          return WelcomeScreen();
+          if (showLoginScreen) {
+            return authLogin.LoginScreen(toggleScreen: toggleScreen);
+          } else {
+            return authSignup.SignUpScreen(toggleScreen: toggleScreen);
+          }
         },
       ),
     );

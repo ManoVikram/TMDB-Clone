@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './signUpScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/loginScreen";
 
+  final Function toggleScreen;
+
+  LoginScreen({this.toggleScreen});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  UserCredential _userCredential;
+
   Widget _textField(String labelText, bool isPassword) {
     return TextField(
+      controller: isPassword ? _passwordTextController : _emailTextController,
       obscureText: isPassword ? true : false,
       cursorColor: Color(0xFF1DB954),
       decoration: InputDecoration(
@@ -150,7 +161,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            print(_emailTextController.text);
+                            print(_passwordTextController.text);
+                            _userCredential =
+                                await _auth.signInWithEmailAndPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text,
+                            );
+                          } on FirebaseAuthException catch (error) {
+                            String message =
+                                "ERROR: Enter correct EMAIL and PASSWORD.";
+
+                            if (error.code == 'user-not-found') {
+                              message = "No user found for that EMAIL.";
+                            } else if (error.code == 'wrong-password') {
+                              message =
+                                  "Wrong PASSWORD provided for that user.";
+                            }
+
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(message),
+                                backgroundColor: Theme.of(context).errorColor,
+                              ),
+                            );
+                          } catch (error) {
+                            print(error);
+                          }
+                        },
                         elevation: 7,
                         padding: EdgeInsets.symmetric(
                           vertical: 20,
@@ -229,8 +269,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(SignUpScreen.routeName);
+                            /* Navigator.of(context)
+                                .pushReplacementNamed(SignUpScreen.routeName); */
+                            widget.toggleScreen();
                           },
                           child: Text(
                             "Register",
