@@ -34,6 +34,9 @@ class PopularMovies with ChangeNotifier {
           movieTitle: popularMovie["title"],
           moviePoster:
               "https://image.tmdb.org/t/p/w185/${popularMovie["poster_path"]}",
+          backdrop:
+              "https://image.tmdb.org/t/p/w185/${popularMovie["backdrop_path"]}",
+          movieRating: popularMovie["vote_average"] * 1.0,
           movieOverview: popularMovie["overview"],
           releaseDate: popularMovie["release_date"],
         ),

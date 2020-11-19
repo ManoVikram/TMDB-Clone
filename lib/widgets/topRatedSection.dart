@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import './movieCard.dart';
-import '../screens/movieDetailsScreen.dart';
+// import '../screens/movieDetailsScreen.dart';
 import '../models/topRatedMoviesAPI.dart';
+import '../screens/movieDetails/movieDetailsScreen.dart';
 
 class TopRatedSection extends StatelessWidget {
   @override

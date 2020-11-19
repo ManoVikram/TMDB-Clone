@@ -156,6 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(message),
+                                backgroundColor: Theme.of(context).errorColor,
                               ),
                             );
                           } catch (error) {

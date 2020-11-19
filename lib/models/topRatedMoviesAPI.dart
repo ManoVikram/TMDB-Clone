@@ -34,6 +34,9 @@ class TopRatedMovies with ChangeNotifier {
           movieTitle: topRatedMovie["title"],
           moviePoster:
               "https://image.tmdb.org/t/p/w185/${topRatedMovie["poster_path"]}",
+          backdrop:
+              "https://image.tmdb.org/t/p/w185/${topRatedMovie["backdrop_path"]}",
+          movieRating: topRatedMovie["vote_average"] * 1.0,
           movieOverview: topRatedMovie["overview"],
           releaseDate: topRatedMovie["release_date"],
         ),

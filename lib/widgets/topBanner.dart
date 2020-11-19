@@ -27,8 +27,8 @@ class TopBanner extends StatelessWidget {
                 "Welcome.",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
                   shadows: [
                     Shadow(
                       color: Colors.black,

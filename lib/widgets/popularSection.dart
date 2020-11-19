@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import './movieCard.dart';
-import '../screens/movieDetailsScreen.dart';
+// import '../screens/movieDetailsScreen.dart';
 import '../models/popularMoviesAPI.dart';
+import '../screens/movieDetails/movieDetailsScreen.dart';
 
 class PopularSection extends StatelessWidget {
   @override

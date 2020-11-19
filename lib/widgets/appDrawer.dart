@@ -77,6 +77,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   FirebaseAuth.instance.signOut();
                 },
               ),

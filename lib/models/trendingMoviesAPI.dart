@@ -34,6 +34,9 @@ class TrendingMovies with ChangeNotifier {
           movieTitle: trendingMovie["title"],
           moviePoster:
               "https://image.tmdb.org/t/p/w185/${trendingMovie["poster_path"]}",
+          backdrop:
+              "https://image.tmdb.org/t/p/w185/${trendingMovie["backdrop_path"]}",
+          movieRating: trendingMovie["vote_average"] * 1.0,
           movieOverview: trendingMovie["overview"],
           releaseDate: trendingMovie["release_date"],
         ),
