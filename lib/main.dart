@@ -14,6 +14,7 @@ import './models/topRatedMoviesAPI.dart';
 import './models/movieVideosAPI.dart';
 import './models/trendingMoviesAPI.dart';
 import './models/auth.dart';
+import './screens/splashScreen.dart';
 import './screens/authenticationScreens/loginScreen.dart' as authLogin;
 import './screens/authenticationScreens/signUpScreen.dart' as authSignup;
 
@@ -97,9 +98,7 @@ class _TMDBState extends State<TMDB> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (contxt, userSnapshot) {
           if (userSnapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return SplashScreen();
           } else if (userSnapshot.connectionState == ConnectionState.active) {
             if (userSnapshot.hasData) {
               return HomeScreen();

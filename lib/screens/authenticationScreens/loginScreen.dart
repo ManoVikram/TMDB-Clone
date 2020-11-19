@@ -25,6 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: isPassword ? _passwordTextController : _emailTextController,
       obscureText: isPassword ? true : false,
       cursorColor: Color(0xFF1DB954),
+      keyboardType:
+          isPassword ? TextInputType.text : TextInputType.emailAddress,
+      autocorrect: false,
+      enableSuggestions: false,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(
