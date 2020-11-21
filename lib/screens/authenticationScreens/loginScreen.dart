@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import './signUpScreen.dart';
 
@@ -19,6 +21,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordTextController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   UserCredential _userCredential;
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   Widget _textField(String labelText, bool isPassword) {
     return TextField(
@@ -228,7 +242,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            final GoogleSignInAccount googleUser =
+                                await GoogleSignIn().signIn();
+                            final GoogleSignInAuthentication googleAuth =
+                                await googleUser.authentication;
+                            final GoogleAuthCredential credential =
+                                GoogleAuthProvider.credential(
+                              accessToken: googleAuth.accessToken,
+                              idToken: googleAuth.idToken,
+                            );
+
+                            _userCredential =
+                                await _auth.signInWithCredential(credential);
+                          } on PlatformException catch (error) {
+                            String message = "ERROR: Couldn't Sign In.";
+
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(message),
+                                backgroundColor: Theme.of(context).errorColor,
+                              ),
+                            );
+                            print(error);
+                          } catch (error) {
+                            print(error);
+                          }
+                        },
                         elevation: 7,
                         padding: EdgeInsets.symmetric(
                           vertical: 20,
